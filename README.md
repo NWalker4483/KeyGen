@@ -29,7 +29,7 @@ Which is glued to two Water Bottle Caps to diffuse the light
 ## Modelling
 The Modelling is passed a mask of the key.
 * ### Edge Extraction 
-Since the key orientaion is controlled 
+Since the key orientaion is controlled the top edge of the image is taken 
 * ### Scaling
 The pixel difference between the top and bottom of the mask is compared to the expected height values
 
@@ -60,3 +60,4 @@ Key Blanks are manually created for the program to modify
 ## References
 * [Powering Pi from Lipo](https://github.com/NeonHorizon/lipopi)
 * [Installing Opencv on Pi](https://www.pyimagesearch.com/2015/10/26/how-to-install-opencv-3-on-raspbian-jessie/)
+* [Other OpenCV Install](http://pythonopencv.com/how-to-easily-install-opencv-3-on-raspberry-pi-23-in-raspbian-without-using-virtual-environments/)
