@@ -1,7 +1,6 @@
 from stl import mesh
 import math
 import numpy
-
 # Create 3 faces of a cube
 data = numpy.zeros(8, dtype=mesh.Mesh.dtype)
 

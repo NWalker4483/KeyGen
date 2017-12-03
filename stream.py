@@ -14,9 +14,11 @@ def Update_Views(names,images):
     for i in zip(names,images):
         cv2.imshow(i[0],i[1])#name,image
 def ConnectCam(pi=False):
+    cam=VideoStream(usePiCamera=pi).start()
+    #Let Camera Warmup
     time.sleep(1)
     # initialize the video stream and allow the cammera sensor to warmup
-    return VideoStream(usePiCamera=pi).start()
+    return cam
     
 def Log_Image(name,image):
     cv2.imwrite("{0}{1}.png".format(name,datetime.datetime.fromtimestamp(time.time()).strftime('%Y_%m_%d-%H:%M:%S')),image)

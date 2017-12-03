@@ -1,27 +1,26 @@
 import stream as im
 import cv2
+import os 
 import time
-from terrain import test_terra
+from modelling import test_terra
 from modelling import top_edge
 import numpy as np
-
 from stl import mesh
 from mpl_toolkits import mplot3d
 from matplotlib import pyplot
-from terrain import test_terra
-import numpy as np
-from readblank import Add_Temp
-figure = pyplot.figure()
-axes = mplot3d.Axes3D(figure)
+from modelling import Add_Temp
+from modelling import plot_stl
+class KeyWay:
+    def __init__(self,type,length,ridgemin,ridgemax):
+        self.type=type
+        self.length=length
+        self.ridgemin=ridgemin
+        self.ridgemax=ridgemax
+Key=KeyWay("L",35,5,8.521902)     
 # Load the STL files and add the vectors to the plot
 edge=cv2.imread('Logs/BestCase.png')
 edge=cv2.cvtColor(edge,cv2.COLOR_BGR2GRAY)
 #[[23.7,14.6,1],[23.7,14.6,0],[23.7,20,1]]
-key = Add_Temp(test_terra([i*(3.536464+4.985438) for i in top_edge(edge)],zero=4.985438))
-axes.add_collection3d(mplot3d.art3d.Poly3DCollection(key.vectors))
-# Auto scale to the mesh size
-scale = key.points.flatten(-1)
-axes.auto_scale_xyz(scale, scale, scale)
-# Show the plot to the screen
-pyplot.show()
-key.save('ridges2.stl')
+key = Add_Temp(test_terra([i*Key.ridgemax for i in top_edge(edge)],Key=Key),Key)
+plot_stl(key)
+key.save('Keys/Key_{0}.stl'.format(len(os.listdir())))
