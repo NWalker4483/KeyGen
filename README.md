@@ -31,7 +31,7 @@ The Modelling is passed a mask of the key.
 * ### Edge Extraction 
 Since the key orientaion is controlled the top edge of the image is taken 
 * ### Scaling
-The pixel difference between the top and bottom of the mask is compared to the expected height values
+The % pixel difference between the max y and the y each value of the mask is multiplied by the predetermined key height
 
 * ### Blanks
 Key Blanks are manually created for the program to modify
@@ -39,19 +39,17 @@ Key Blanks are manually created for the program to modify
 ## Printing
 * ### Settings 
 * * Mini-Fill
+* * Temp: 200 C
 ## Current Tests
 * Inclusion of a umbrella effect to reduce light flares
 * Remove Gloss from paint with steel wool to reduce light flares
 * Testing on a white background to reduce light flares
-* Powering CoolBase Led from Pi3 and Pi Zero 
-* Sharpening Image to correct for blurry images 
 * Adjusting the picamera lens for [macro photography](https://www.raspberrypi.org/blog/macro-photography-with-the-camera-board/)
 ## Future Developments 
 * Storing keys on server
 * Notification Lights
 * Reliability with varying key colors
 * Method of KeyWay User input
-* Hard code Scaling Ratio to reduce computational load
 * Portable Power with a Lipo Battery 
 * Using Button to initiate cloning procedure
 ## Shopping List

@@ -17,9 +17,8 @@ axes = mplot3d.Axes3D(figure)
 edge=cv2.imread('Logs/BestCase.png')
 edge=cv2.cvtColor(edge,cv2.COLOR_BGR2GRAY)
 #[[23.7,14.6,1],[23.7,14.6,0],[23.7,20,1]]
-key = Add_Temp(test_terra([i*(3.536464) for i in top_edge(edge)],zero=4.985438))
+key = Add_Temp(test_terra([i*(3.536464+4.985438) for i in top_edge(edge)],zero=4.985438))
 axes.add_collection3d(mplot3d.art3d.Poly3DCollection(key.vectors))
-
 # Auto scale to the mesh size
 scale = key.points.flatten(-1)
 axes.auto_scale_xyz(scale, scale, scale)
