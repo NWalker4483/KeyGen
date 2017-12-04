@@ -23,20 +23,6 @@ def ConnectCam(pi=False):
     
 def Log_Image(name,image):
     cv2.imwrite("{0}{1}.png".format(name,datetime.datetime.fromtimestamp(time.time()).strftime('%Y_%m_%d-%H:%M:%S')),image)
-
-def pixelate(_image,pixelSize=32):
-        from PIL import Image
-        backgroundColor = (0,)*3
-        _image=Image.fromarray(_image)
-        _image = _image.resize((int(_image.size[0]/pixelSize), int(_image.size[1]/pixelSize)), Image.NEAREST)
-        _image = _image.resize((int(_image.size[0]*pixelSize), int(_image.size[1]*pixelSize)), Image.NEAREST)
-        pixel=_image.load()
-        for i in range(0,_image.size[0],pixelSize):
-            for j in range(0,_image.size[1],pixelSize):
-                for r in range(pixelSize):
-                    pixel[i+r,j] = backgroundColor
-                    pixel[i,j+r] = backgroundColor     
-        return np.array(_image)
 if __name__=="__main__":
     camera=ConnectCam()
     views=["Test"]

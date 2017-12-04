@@ -8,10 +8,11 @@ def top_edge(A):
     for i in range(len(A[0])):
         try:
             #Search column at all row indexes until a value is found
-            O=next(filter(lambda x: A[x][i]>0,range(int(len(A)/2))))
+            O=next(filter(lambda x: A[x][i]>0,range(int(len(A)))))
             #Add to list of edges
             y.append(O)
         except:
+            #You have reached the end of the key 
             if len(y)>0:
                 break
     zero=max(y)+1
@@ -67,6 +68,7 @@ def Add_Temp(ridges,Key):
     return mesh.Mesh(np.concatenate([handle.data,
     temp.data,ridges.data   
 ]))
+
 def plot_stl(img):
     figure = pyplot.figure()
     axes = mplot3d.Axes3D(figure)
@@ -76,11 +78,12 @@ def plot_stl(img):
     axes.auto_scale_xyz(scale, scale, scale)
     pyplot.show()
 class KeyWay:
-        def __init__(self,type,length,ridgemin,ridgemax):
+        def __init__(self,type,length,ridgemin,ridgemax,points=None):
             self.type=type
             self.length=length
             self.ridgemin=ridgemin
             self.ridgemax=ridgemax
+            self.keywaypoints=points
 if __name__ == "__main__":
     # Create a new plot
     Key=KeyWay("L",35,5,8.521902)

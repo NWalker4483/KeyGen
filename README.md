@@ -15,9 +15,9 @@ The purpose of this project is to create a device that can automatically create 
 * picamera
 * time,datetime
 ## Imaging
-On a <del>Black</del> Background
+Once the key is palced on a Solid Background
 * ### Key Reading
-The image is then converted to a Grayscale image which is then converted to a B&W mask of the key, using the open-cv threshold function. 
+The image is converted to a Grayscale image which is then converted to a B&W mask of the key, using the open-cv threshold function. 
 * ### Enclosure
 The device enclosure was designed in Sketchup and replaces the need for a seperate black drop.
 * * #### Circuits

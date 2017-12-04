@@ -25,7 +25,7 @@ if demo==False:
             break
 else:
     import cv2
-    edge=cv2.imread('Logs/BestCase.png')
+    edge=cv2.imread('Logs/Test .png')
     edge=cv2.cvtColor(edge,cv2.COLOR_BGR2GRAY)
 key = make.Add_Temp(make.test_terra([i*Key.ridgemax for i in make.top_edge(edge)],Key=Key),Key)
 make.plot_stl(key)
