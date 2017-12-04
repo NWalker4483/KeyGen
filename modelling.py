@@ -12,9 +12,8 @@ def top_edge(A):
             #Add to list of edges
             y.append(O)
         except:
-            pass
-            #if len(y)>0:
-                #break
+            if len(y)>0:
+                break
     zero=max(y)+1
     y=[(zero/(i+1))/2 for i in y]
     #print(*y,sep='\n')
@@ -83,7 +82,6 @@ class KeyWay:
             self.ridgemin=ridgemin
             self.ridgemax=ridgemax
 if __name__ == "__main__":
-
     # Create a new plot
     Key=KeyWay("L",35,5,8.521902)
     # Render the cube faces

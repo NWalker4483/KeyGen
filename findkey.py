@@ -14,7 +14,7 @@ def get_edge(img,mode="cropped"):
     return [A,img]
 if __name__=="__main__":
     img=cv2.imread("Logs/Test2017_11_26-20:09:10.png",0)
-    ima=get_edge(img,img)
+    ima=get_edge(img)
     # show the images
     cv2.imshow("",ima)
     cv2.waitKey(0)
