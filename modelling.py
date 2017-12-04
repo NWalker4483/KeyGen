@@ -4,19 +4,20 @@ from matplotlib import pyplot
 from mpl_toolkits import mplot3d
 def top_edge(A):
     y=[]
+    a=len(A)
     # Range of all Possible Rows
     for i in range(len(A[0])):
         try:
             #Search column at all row indexes until a value is found
             O=next(filter(lambda x: A[x][i]>0,range(int(len(A)))))
             #Add to list of edges
-            y.append(O)
+            y.append(abs(O-a))
         except:
             #You have reached the end of the key 
             if len(y)>0:
                 break
-    zero=max(y)+1
-    y=[(zero/(i+1))/2 for i in y]
+    zero=max(y)
+    y=[((i)/zero) for i in y]
     #print(*y,sep='\n')
     return y
 def test_terra(y,Key,index=0):
