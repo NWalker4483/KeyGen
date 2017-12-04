@@ -29,7 +29,6 @@ def test_terra(y,Key,index=0):
    #red,green,blue
    # y.append(0)
     y=list(y)+[zero]
-    #y=list(map(lambda x: Key.ridgemax if x>Key.ridgemax else x,y))
     x=1
     for i in range(0,len(data['vectors']),6):
 
@@ -77,15 +76,15 @@ def plot_stl(img):
     scale = img.points.flatten(-1)
     axes.auto_scale_xyz(scale, scale, scale)
     pyplot.show()
-if __name__ == "__main__":
-
-    # Create a new plot
-    class KeyWay:
+class KeyWay:
         def __init__(self,type,length,ridgemin,ridgemax):
             self.type=type
             self.length=length
             self.ridgemin=ridgemin
             self.ridgemax=ridgemax
+if __name__ == "__main__":
+
+    # Create a new plot
     Key=KeyWay("L",35,5,8.521902)
     # Render the cube faces
     plot_stl(Add_Temp(test_terra([0,0,0,0,0,0,0,0],Key=Key),Key=Key))
