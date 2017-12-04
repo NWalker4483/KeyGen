@@ -2,23 +2,23 @@ from stl import mesh
 import numpy as np
 from matplotlib import pyplot
 from mpl_toolkits import mplot3d
-def top_edge(A):
+def top_edge(A,Key):
     y=[]
     a=len(A)
     # Range of all Possible Rows
     for i in range(len(A[0])):
         try:
             #Search column at all row indexes until a value is found
-            O=next(filter(lambda x: A[x][i]>0,range(int(len(A)))))
+            O=next(filter(lambda x: A[x][i]>0,range(int(len(A)/2))))
             #Add to list of edges
-            y.append(abs(O-a))
+            y.append(a-O)
         except:
             #You have reached the end of the key 
             if len(y)>0:
                 break
-    zero=max(y)
-    y=[((i)/zero) for i in y]
-    #print(*y,sep='\n')
+    zero=1/max(y)
+    y=[((i*zero)*Key.ridgemax) for i in y]
+    print(*y,sep='\n')
     return y
 def test_terra(y,Key,index=0):
     zero=Key.ridgemin
@@ -84,6 +84,7 @@ class KeyWay:
             self.length=length
             self.ridgemin=ridgemin
             self.ridgemax=ridgemax
+            self.ridgediff=ridgemax-ridgemin
             self.keywaypoints=points
 if __name__ == "__main__":
     # Create a new plot
