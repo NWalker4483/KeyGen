@@ -13,7 +13,7 @@ def Create_Views(windows,pos=(0,0)):#list of window names
 def Update_Views(names,images,trigger=(None,None)):
     for i in zip(names,images):
         cv2.imshow(i[0],i[1])#name,image
-        cv2.waitKey(1)
+    return cv2.waitKey(1)
 def ConnectCam(pi=False):
     cam=VideoStream(usePiCamera=pi).start()
     #Let Camera Warmup

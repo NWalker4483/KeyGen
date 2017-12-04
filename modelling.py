@@ -12,12 +12,12 @@ def top_edge(A):
             #Add to list of edges
             y.append(O)
         except:
-            if len(y)>0:
-                break
-            continue
+            pass
+            #if len(y)>0:
+                #break
     zero=max(y)+1
     y=[(zero/(i+1))/2 for i in y]
-    print(*y,sep='\n')
+    #print(*y,sep='\n')
     return y
 def test_terra(y,Key,index=0):
     zero=Key.ridgemin

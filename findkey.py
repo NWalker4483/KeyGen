@@ -8,7 +8,7 @@ def get_edge(img,mode="cropped"):
         c = max(contours, key = cv2.contourArea)
         x,y,w,h = cv2.boundingRect(c)
         if mode=="cropped":
-            return [i[y: y + h, x: x + w] for i in [A,img]]
+            return A[y: y + h, x: x + w]
         cv2.drawContours(img, contours, -1, 255, 3)
     cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
     return [A,img]
