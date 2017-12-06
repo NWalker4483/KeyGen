@@ -9,16 +9,17 @@ def top_edge(A,Key):
     for i in range(len(A[0])):
         try:
             #Search column at all row indexes until a value is found
-            O=next(filter(lambda x: A[x][i]>0,range(int(len(A)/2))))
+            O=next(filter(lambda x: A[x][i]>0,range(len(A))))
             #Add to list of edges
             y.append(a-O)
         except:
+            y.append(y[-1])
             #You have reached the end of the key 
-            if len(y)>0:
-                break
+            #if len(y)>0:
+                #break
     zero=1/max(y)
     y=[((i*zero)*Key.ridgemax) for i in y]
-    print(*y,sep='\n')
+    #print(*y,sep='\n')
     return y
 def test_terra(y,Key,index=0):
     zero=Key.ridgemin
@@ -64,7 +65,8 @@ def Add_Temp(ridges,Key):
     #Filter through KeyWay template and set length equal to the length of the keytype
     for i in range(len(temp.vectors)):
         for j in range(3): 
-            temp.vectors[i][j]=list(map(lambda x: Key.length if x==1 else x,temp.vectors[i][j]))
+            if temp.vectors[i][j][0]==1:
+                temp.vectors[i][j][0]=Key.length 
     # Return Combined Meshes
     return mesh.Mesh(np.concatenate([handle.data,
     temp.data,ridges.data   
@@ -79,16 +81,25 @@ def plot_stl(img):
     axes.auto_scale_xyz(scale, scale, scale)
     pyplot.show()
 class KeyWay:
-        def __init__(self,type,length,ridgemin,ridgemax,points=None):
-            self.type=type
+        def __init__(self,typ,length,ridgemin,ridgemax,points=None):
+            self.type=typ
             self.length=length
             self.ridgemin=ridgemin
             self.ridgemax=ridgemax
             self.ridgediff=ridgemax-ridgemin
             self.keywaypoints=points
 if __name__ == "__main__":
+    import math
+    import numpy as np
+    #import cv2 
+    from findkey import get_edge
+    #A=cv2.imread('Highres.png')
     # Create a new plot
     Key=KeyWay("L",35,5,8.521902)
     # Render the cube faces
-    plot_stl(Add_Temp(test_terra([0,0,0,0,0,0,0,0],Key=Key),Key=Key))
+    key=Add_Temp(test_terra([(abs(math.sin(i))*Key.ridgediff)+Key.ridgemin for i in np.arange(0,50,.1)],Key=Key),Key=Key)
+    #key=Add_Temp(test_terra((np.random.rand(200,1)*Key.ridgediff)+Key.ridgemin,Key),Key)
+    #key=test_terra(top_edge(get_edge(A),Key),Key)
+    plot_stl(key)
+    key.save('Keys/Tan_Key.stl')
 

@@ -25,10 +25,12 @@ if demo==False:
             break
 else:
     import cv2
+    from delet import getme
     edge=cv2.imread('Logs/BestCase.png')
-    edge=cv2.cvtColor(edge,cv2.COLOR_BGR2GRAY)
+    edge=getme()#cv2.cvtColor(edge,cv2.COLOR_BGR2GRAY)
 key = make.Add_Temp(make.test_terra(make.top_edge(edge,Key),Key=Key),Key)
 make.plot_stl(key)
 demo=False
 if demo==False:
     key.save('Keys/Key_{0}.stl'.format(len(os.listdir("Keys"))+1))
+    cv2.destroyAllWindows()
