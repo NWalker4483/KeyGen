@@ -25,7 +25,7 @@ if demo==False:
             break
 else:
     import cv2
-    from delet import getme
+    from findkey import getme
     edge=cv2.imread('Logs/BestCase.png')
     edge=getme()#cv2.cvtColor(edge,cv2.COLOR_BGR2GRAY)
 key = make.Add_Temp(make.GenerateRidgeTerrian(make.ExtractTopRidge(edge,Key),Key=Key),Key)
