@@ -28,7 +28,7 @@ else:
     from delet import getme
     edge=cv2.imread('Logs/BestCase.png')
     edge=getme()#cv2.cvtColor(edge,cv2.COLOR_BGR2GRAY)
-key = make.Add_Temp(make.test_terra(make.top_edge(edge,Key),Key=Key),Key)
+key = make.Add_Temp(make.GenerateRidgeTerrian(make.ExtractTopRidge(edge,Key),Key=Key),Key)
 make.plot_stl(key)
 demo=False
 if demo==False:
