@@ -3,31 +3,33 @@ import numpy as np
 from matplotlib import pyplot
 from mpl_toolkits import mplot3d
 
-# TODO: Apply cls parameter 
+def MakeKey(key_type, ridges, ridge_min = 10, ridge_max = 7, ridge_length = 35):
+    scaled_ridges = [ridges[i] * (ridge_max-ridge_min) + ridge_min for i in range(len(ridges))]
+    ridges = GenerateRidgeTerrian(scaled_ridges, ridge_min = ridge_min, ridge_max = ridge_max, ridge_length = ridge_length)
+    Key = AddKeyTemplate(ridges, ridge_length = ridge_length, key_type=key_type)
+    return Key
 
-def ExtractTopRidge(A,Key):
-    y=[]
-    a=len(A)
+def ExtractTopRidge(key_edge_img, ridge_max):
+    y = []
+    a = len(key_edge_img)
     # Range of all Possible Rows
     for i in range(len(A[0])):
-        try:
+        try: 
             #Search column at all row indexes until a value is found
-            O=next(filter(lambda x: A[x][i]>0,range(len(A))))
+            O = next(filter(lambda x: key_edge_img[x][i]>0,range(len(A))))
             #Add to list of edges
             y.append(a-O)
-        except:
-            y.append(y[-1])
-            #You have reached the end of the key 
-            #if len(y)>0:
-                #break
-    zero=1/max(y)
-    y=[((i*zero)*Key.ridgemax) for i in y]
-    #print(*y,sep='\n')
+        except: # next() fails if no white pixels are found in the column
+            y.append(y[-1]) # No Value was found so repeat the last value seen 
+
+    zero=1 / max(y)
+    y=[((i * zero) * ridge_max) for i in y]
     return y
 
-def GenerateRidgeTerrian(y,Key,index=0):
-    zero = Key.ridgemin
-    step = Key.length/len(y)
+def GenerateRidgeTerrian(y, ridge_min = 10, ridge_max = 7, ridge_length = 35):
+    zero = ridge_min
+    index = 0
+    step = ridge_length/len(y)
     if step > 1:
         step = 1
 
@@ -59,18 +61,17 @@ def GenerateRidgeTerrian(y,Key,index=0):
         index += step
     return mesh.Mesh(data)
 
-def Add_Temp(ridges,Key):
+def AddKeyTemplate(ridges,ridge_length = 35, key_type = 'L'):
     #Read in Keyway File 
-    temp = mesh.Mesh.from_file('KeyWays/{0}_Way.stl'.format(Key.type))
+    temp = mesh.Mesh.from_file('KeyWays/{0}_Way.stl'.format(key_type))
     #Read in handle file 
-    handle = mesh.Mesh.from_file(filename = 'KeyWays/Handle.stl')
-    #Store Ridge Length in mm 
+    handle = mesh.Mesh.from_file(filename = 'KeyWays/Handle.stl') 
 
     #Filter through KeyWay template and set length equal to the length of the keytype
     for i in range(len(temp.vectors)):
         for j in range(3): 
             if temp.vectors[i][j][0] == 1:
-                temp.vectors[i][j][0] = Key.length 
+                temp.vectors[i][j][0] = ridge_length 
     # Return Combined Meshes
     return mesh.Mesh(np.concatenate([handle.data,
     temp.data,ridges.data]))
@@ -85,24 +86,13 @@ def plot_stl(img):
     axes.auto_scale_xyz(scale, scale, scale)
     pyplot.show()
 
-class KeyWay:
-        def __init__(self,typ,length,ridgemin,ridgemax,points=None):
-            self.type=typ # Letter Key 
-            self.length=length # mm
-            self.ridgemin=ridgemin # mm
-            self.ridgemax=ridgemax # mm
-            self.ridgediff=ridgemax-ridgemin # mm
-            self.keywaypoints=points # I forgot what this is for 
-
 if __name__ == "__main__":
     import math
     from findkey import get_edge
 
-    Key=KeyWay("L",35,5,8.521902)
-    sine_ridge = [(abs(math.cos(i)) * Key.ridgediff)+Key.ridgemin for i in np.arange(0,50,.1)]
+    sine_wave = [abs(math.sin(i)) for i in np.arange(0,50,.1)]
     # Render the cube faces
-    ridges = GenerateRidgeTerrian(sine_ridge,Key=Key)
-    key = Add_Temp(ridges,Key)
+    key = MakeKey('L', sine_wave, 5, 8.521902, 35)
     plot_stl(key)
-    key.save('Keys/Cos_Key.stl')
+    key.save('Keys/Sine_Key.stl')
 
