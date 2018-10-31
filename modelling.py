@@ -4,16 +4,19 @@ from matplotlib import pyplot
 from mpl_toolkits import mplot3d
 
 def MakeKey(key_type, ridges, ridge_min = 10, ridge_max = 7, ridge_length = 35):
+    if type(ridges) not in [list,np.ndarray]:
+        if len(ridges.shape) != 1:
+            ridges = ExtractTopRidge(ridges,ridge_max)
     scaled_ridges = [ridges[i] * (ridge_max-ridge_min) + ridge_min for i in range(len(ridges))]
     ridges = GenerateRidgeTerrian(scaled_ridges, ridge_min = ridge_min, ridge_max = ridge_max, ridge_length = ridge_length)
     Key = AddKeyTemplate(ridges, ridge_length = ridge_length, key_type=key_type)
     return Key
 
-def ExtractTopRidge(key_edge_img, ridge_max):
+def ExtractTopRidge(key_edge_img, ridge_max = 10):
     y = []
     a = len(key_edge_img)
     # Range of all Possible Rows
-    for i in range(len(A[0])):
+    for i in range(len(key_edge_img[0])):
         try: 
             #Search column at all row indexes until a value is found
             O = next(filter(lambda x: key_edge_img[x][i]>0,range(len(A))))
@@ -22,11 +25,11 @@ def ExtractTopRidge(key_edge_img, ridge_max):
         except: # next() fails if no white pixels are found in the column
             y.append(y[-1]) # No Value was found so repeat the last value seen 
 
-    zero=1 / max(y)
+    zero = 1 / max(y)
     y=[((i * zero) * ridge_max) for i in y]
     return y
 
-def GenerateRidgeTerrian(y, ridge_min = 10, ridge_max = 7, ridge_length = 35):
+def GenerateRidgeTerrian(y, ridge_min = 7, ridge_max = 10, ridge_length = 35):
     zero = ridge_min
     index = 0
     step = ridge_length/len(y)
@@ -34,7 +37,7 @@ def GenerateRidgeTerrian(y, ridge_min = 10, ridge_max = 7, ridge_length = 35):
         step = 1
 
     data = np.zeros(len(y) * 6, dtype=mesh.Mesh.dtype)
-    y = list(y) + [zero] # TODO: Remove List Function Call
+    y += [zero] # TODO: Remove List Function Call
     x = 1
     for i in range(0,len(data['vectors']),6): 
         # The Roof
@@ -88,7 +91,6 @@ def plot_stl(img):
 
 if __name__ == "__main__":
     import math
-    from findkey import get_edge
 
     sine_wave = [abs(math.sin(i)) for i in np.arange(0,50,.1)]
     # Render the cube faces

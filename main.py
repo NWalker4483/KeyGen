@@ -1,34 +1,35 @@
 import stream as see
 import os 
-from findkey import get_edge
+import findkey
+import cv2
+import imutils
 import modelling as make
 from stl import mesh
 from argparse import ArgumentParser
+
 parser = ArgumentParser()
 argu=["keytype","demo"]
 for i in argu:
     parser.add_argument("-"+i[0],"--"+i, type=str,help="N/A")
 args = parser.parse_args()
 keyway=(args.keytype.upper() if args.keytype != None else "L")
-demo=(True if args.demo != None else False)
-Key=make.KeyWay(keyway,35,5,8.521902)     
+demo=(False if args.demo != None else True)
 # Load the STL files and add the vectors to the plot
-if demo==False:
+if demo==True:
     cam=see.ConnectCam()
-    views=["True"]
+    views=["Image 1"]
     see.Create_Views(views)
     while True: 
-        edge=get_edge(cam.read())
-        key=see.Update_Views(views,[edge])
+        img = imutils.resize(cam.read(),height = 400)
+        img = cv2.flip(img,1)
+        edge = findkey.ExtractKeyEdges(img)
+        key = see.Update_Views(views,[edge])
         if key==ord("y"):
             print("Proccessing")
             break
 else:
-    import cv2
-    from findkey import getme
-    edge=cv2.imread('Logs/BestCase.png')
-    edge=getme()#cv2.cvtColor(edge,cv2.COLOR_BGR2GRAY)
-key = make.Add_Temp(make.GenerateRidgeTerrian(make.ExtractTopRidge(edge,Key),Key=Key),Key)
+    pass
+key = make.MakeKey('L', edge, 5, 8.521902, 35)
 make.plot_stl(key)
 demo=False
 if demo==False:
