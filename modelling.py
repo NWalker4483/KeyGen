@@ -19,7 +19,7 @@ def ExtractTopRidge(key_edge_img, ridge_max = 10):
     for i in range(len(key_edge_img[0])):
         try: 
             #Search column at all row indexes until a value is found
-            O = next(filter(lambda x: key_edge_img[x][i]>0,range(len(A))))
+            O = next(filter(lambda x: key_edge_img[x][i]>0,range(len(key_edge_img))))
             #Add to list of edges
             y.append(a-O)
         except: # next() fails if no white pixels are found in the column
